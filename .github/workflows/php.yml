@@ -1,0 +1,43 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Mettre à jour les paquets et installer PHP
+      run: |
+        sudo apt update
+        sudo apt install -y php php-cli php-mbstring php-xml php-json php8.2-sqlite3 php-mysql
+
+    - name: Valider le fichier composer.json et composer.lock
+      run: composer validate --strict
+
+    - name: Cacher les paquets Composer
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Installer les dépendances Composer
+      run: composer install --prefer-dist --no-progress
+
+    - name: Exécuter les commandes Make
+      run: |
+        make install 
+        make test     
