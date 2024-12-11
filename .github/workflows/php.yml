@@ -21,7 +21,7 @@ jobs:
     - name: Mettre à jour les paquets et installer PHP
       run: |
         sudo apt update
-        sudo apt install -y php php-cli php-mbstring php-xml php-json php8.2-sqlite3 php-mysql
+        sudo apt install -y php php-cli php-mbstring php-xml php-json php-sqlite3 php-mysql
 
     - name: Valider le fichier composer.json et composer.lock
       run: composer validate --strict
