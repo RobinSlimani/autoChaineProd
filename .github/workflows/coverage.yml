@@ -28,13 +28,13 @@ jobs:
       uses: php-actions/phpunit@v3
       with:
         php_version: '8.2'
-        version: '9.6.11'  # Version de PHPUnit
+        version: '9.6.11'  
         configuration: 'phpunit.xml'
-        php_extensions: 'xdebug pdo mbstring xml curl sqlite3 pdo-sqlite gd'
+        php_extensions: 'pdo mbstring xml curl sqlite3 pdo-sqlite gd xdebug'  
         coverage_cobertura: 'coverage/cobertura.xml'
-        coverage_filter: '!vendor' 
+        coverage_filter: '!vendor'  
 
     - name: Upload Code Coverage Summary
       uses: irongut/CodeCoverageSummary@v1
       with:
-        cobertura_xml_file: coverage/cobertura.xml 
+        cobertura_xml_file: coverage/cobertura.xml  
