@@ -1,0 +1,40 @@
+name: Run PHPUnit Tests and Coverage Summary (Excluding Vendor)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP and Composer
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+
+    - name: Install Composer dependencies
+      run: composer install
+
+    - name: Run PHPUnit tests and generate Cobertura coverage report (excluding vendor)
+      uses: php-actions/phpunit@v3
+      with:
+        php_version: '8.2'
+        version: '9.6.11'  # Version de PHPUnit
+        configuration: 'phpunit.xml'
+        php_extensions: 'pdo mbstring xml curl sqlite3 pdo-sqlite gd'
+        coverage_cobertura: 'coverage/cobertura.xml'
+        coverage_filter: '!vendor'  # Exclure le répertoire 'vendor'
+
+    - name: Upload Code Coverage Summary
+      uses: irongut/CodeCoverageSummary@v1
+      with:
+        cobertura_xml_file: coverage/cobertura.xml  # Le fichier Cobertura
