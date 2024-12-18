@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - '**.php'
+      - 'phpcs.xml'
+      - 'test/phpmd/ruleset.xml'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - '**.php'
+      - 'phpcs.xml'
+      - 'test/phpmd/ruleset.xml'
+      - '.github/workflows/**'
+
+jobs:
+  php-code-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install Dependencies
+        uses: php-actions/composer@v6
+
+      - name: Run PHP_CodeSniffer
+        run: |
+          curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+          php phpcs.phar --standard=phpcs.xml --extensions=php .
+
+      - name: Run PHP Mess Detector
+        uses: php-actions/phpmd@v1
+        with:
+          php_version: 8.1
+          path: src/
+          output: text
+          ruleset: test/phpmd/ruleset.xml
+
+      - name: Run PHPStan
+        uses: php-actions/phpstan@v3
+        with:
+          path: src/
