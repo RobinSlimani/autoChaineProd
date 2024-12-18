@@ -1,4 +1,4 @@
-name: Run PHPUnit Tests and Coverage Report
+name: Run PHPUnit Tests and Generate Coverage Report
 
 on:
   push:
@@ -26,13 +26,27 @@ jobs:
         version: '9.6.11'
         configuration: 'phpunit.xml'
         php_extensions: 'pdo mbstring xml curl sqlite3 pdo-sqlite gd xdebug'
-        coverage_cobertura: 'log/coverage-cobertura.xml'
-      env: 
-        XDEBUG_MODE: coverage 
+        coverage_cobertura: 'coverage/cobertura.xml'
 
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+      env:
+        XDEBUG_MODE: coverage
+
+    - name: Generate Coverage Summary in Markdown
+      uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        file: log/coverage-cobertura.xml
-        flags: unittests
-        fail_ci_if_error: true
+        filename: coverage/cobertura.xml
+        badge: true
+        fail_below_min: true
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '50 75'
+
+    - name: Add Coverage PR Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      if: github.event_name == 'pull_request'
+      with:
+        recreate: true
+        path: code-coverage-results.md
