@@ -37,7 +37,7 @@ jobs:
         uses: php-actions/phpmd@v1
         with:
           php_version: 8.1
-          path: src/
+          path: ./
           output: text
           ruleset: test/phpmd/ruleset.xml
         continue-on-error: true 
@@ -45,5 +45,5 @@ jobs:
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
         with:
-          path: src/
+          path: ./
         continue-on-error: true 
