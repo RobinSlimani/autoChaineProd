@@ -20,6 +20,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
+        coverage: xdebug 
 
     - name: Install Composer dependencies
       run: composer install
@@ -33,3 +34,10 @@ jobs:
         php_extensions: 'pdo mbstring xml curl sqlite3 pdo-sqlite gd xdebug'
         coverage_cobertura: 'coverage/cobertura.xml'
         coverage_filter: '!vendor'
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: coverage/cobertura.xml
+        flags: unittests
+        fail_ci_if_error: true
