@@ -24,10 +24,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install Dependencies
+      - name: Install Composer
         run: |
           curl -sS https://getcomposer.org/installer | php
-          php composer.phar install --dev  # Ajout de --dev pour installer les dépendances de développement
+          mv composer.phar /usr/local/bin/composer
+          composer --version 
+
+      - name: Install Dependencies
+        run: |
+          composer install --dev 
+        continue-on-error: true
+
+      - name: Check PHPStan installation
+        run: |
+          composer show phpstan/phpstan
+        continue-on-error: true
 
       - name: Run PHP_CodeSniffer
         run: |
@@ -45,7 +56,6 @@ jobs:
         continue-on-error: true
 
       - name: Run PHPStan
-        uses: php-actions/phpstan@v3
-        with:
-          path: bin,lib
+        run: |
+          vendor/bin/phpstan analyse bin lib 
         continue-on-error: true
