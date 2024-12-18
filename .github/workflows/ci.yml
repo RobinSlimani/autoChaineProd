@@ -25,7 +25,9 @@ jobs:
           fetch-depth: 0
 
       - name: Install Dependencies
-        uses: php-actions/composer@v6
+        run: |
+          curl -sS https://getcomposer.org/installer | php
+          php composer.phar install --dev  # Ajout de --dev pour installer les dépendances de développement
 
       - name: Run PHP_CodeSniffer
         run: |
