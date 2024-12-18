@@ -59,3 +59,4 @@ jobs:
         run: |
           vendor/bin/phpstan analyse bin lib 
         continue-on-error: true
+
