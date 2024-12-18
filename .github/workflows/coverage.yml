@@ -1,4 +1,4 @@
-name: Run PHPUnit Tests and Coverage Report (Excluding Vendor)
+name: Run PHPUnit Tests and Coverage Report
 
 on:
   push:
@@ -15,25 +15,24 @@ jobs:
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3
-        
+
     - name: Install Composer dependencies
       run: composer install
 
-    - name: Run PHPUnit tests and generate Cobertura coverage report (excluding vendor)
+    - name: Run PHPUnit tests and generate Cobertura coverage report
       uses: php-actions/phpunit@v3
       with:
         php_version: '8.2'
         version: '9.6.11'
         configuration: 'phpunit.xml'
         php_extensions: 'pdo mbstring xml curl sqlite3 pdo-sqlite gd xdebug'
-        coverage_cobertura: 'coverage/cobertura.xml'
-
+        coverage_cobertura: 'log/coverage-cobertura.xml'
       env: 
-         XDEBUG_MODE: coverage 
+        XDEBUG_MODE: coverage 
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:
-        file: coverage/cobertura.xml
+        file: log/coverage-cobertura.xml
         flags: unittests
         fail_ci_if_error: true
