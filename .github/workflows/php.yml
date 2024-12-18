@@ -32,3 +32,4 @@ jobs:
         configuration: 'phpunit.xml' 
         php_extensions: 'pdo mbstring xml curl sqlite3 pdo-sqlite gd'
         coverage_html: 'coverage/report.html'
+
