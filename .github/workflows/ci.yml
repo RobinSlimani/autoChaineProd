@@ -30,20 +30,20 @@ jobs:
       - name: Run PHP_CodeSniffer
         run: |
           curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-          php phpcs.phar --standard=phpcs.xml --extensions=php .
-        continue-on-error: true 
+          php phpcs.phar --standard=phpcs.xml --extensions=php bin lib index.php
+        continue-on-error: true
 
       - name: Run PHP Mess Detector
         uses: php-actions/phpmd@v1
         with:
           php_version: 8.1
-          path: ./
+          path: bin,lib,index.php
           output: text
           ruleset: test/phpmd/ruleset.xml
-        continue-on-error: true 
+        continue-on-error: true
 
       - name: Run PHPStan
         uses: php-actions/phpstan@v3
         with:
-          path: ./
-        continue-on-error: true 
+          path: bin,lib
+        continue-on-error: true
