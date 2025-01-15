@@ -54,3 +54,4 @@ jobs:
       - name: Run PHPStan
         run: phpstan analyse bin lib
         continue-on-error: true
+
