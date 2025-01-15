@@ -2,17 +2,17 @@ name: CI
 
 on:
   push:
-	paths:
-  	- '**.php'
-  	- 'phpcs.xml'
-  	- 'test/phpmd/ruleset.xml'
-  	- '.github/workflows/**'
+    paths:
+      - '**.php'
+      - 'phpcs.xml'
+      - 'test/phpmd/ruleset.xml'
+      - '.github/workflows/**'
   pull_request:
-	paths:
-  	- '**.php'
-  	- 'phpcs.xml'
-  	- 'test/phpmd/ruleset.xml'
-  	- '.github/workflows/**'
+    paths:
+      - '**.php'
+      - 'phpcs.xml'
+      - 'test/phpmd/ruleset.xml'
+      - '.github/workflows/**'
 
 jobs:
   php-code-analysis:
